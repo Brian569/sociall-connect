@@ -42,6 +42,8 @@
                 <a href=" {% url 'post_detail' post.pk %} " class="stretched-link" ></a>
             </div>
         </div>
+        {% empty %}
+        <p><i>No posts yet!!</i></p>
             
         {% endfor %}
             
