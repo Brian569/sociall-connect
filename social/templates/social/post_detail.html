@@ -14,16 +14,18 @@
         <div class="row justify-content-center mt-3">
             <div class="col-md-5 col-sm-12 border-bottom">
 
-                <p><strong>
-                    {{post.author}}
-                </strong>
-                <small>
-                    <i>{{post.created_on}}</i>
-                </small>
-            </p>
-            <p> 
-                 {{post.body}}
-            </p>
+                <p>
+                    <strong> {{post.author}}  </strong><small><i>{{post.created_on}}</i> </small>
+
+                    
+                    {% if request.user == post.author %}
+                    <a href=" {% url 'post_edit' post.pk %} " style="color: blue;"> <i class="far fa-edit"></i>   </a>
+                    <a href=" {% url 'post_delete' post.pk %} " style="color: red;"> <i class="fas fa-trash-alt "></i> </a>
+                        
+                    {% endif %}
+                        
+                </p>
+                <p> {{post.body}} </p>
             </div>
         </div>
 
@@ -38,11 +40,35 @@
                    {{form | crispy}}
 
                    <div class="d-grid gap-2">
-                       <button class="btn btn-success mt-3">Submit!</button>
+                       <button class="btn btn-success mt-3">Add comment</button>
                    </div>
                </form>
             </div>
         </div>
-           </div>
+    </div>
+
+    
+    
+    <div class="row justify-content-center mt-3 mb-5 ">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <small><h5><i class="far fa-comment"></i> </h5></small>
+
+        {% for comment in comment  %}
+        <div class="card my-2 m-2 p-2" style=" float: left; border:none;">
+            <p>
+                By  <strong>{{comment.author}}</strong> <small>{{comment.created_on}}</small> </p>
+            <p> {{comment.comment}} </p>
+            {% if request.user == comment.author %}
+             <a href=" {% url 'comment_delete' post.pk comment.pk %} " style="color: red;"> <i class="fas fa-trash-alt "></i> </a>
+                
+            {% endif %}
+        </div>
+        {% empty %}
+         <p><i>No comments yet</i></p>
+        {% endfor %}
+
+        </div>
+    </div>
+        
 {% endblock content %}
     
